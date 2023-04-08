@@ -174,8 +174,7 @@ class LeafletWriter(Writer):
         labelVisibility = ""
         new_src = ""
         jsons = ""
-        crs = QgsCoordinateReferenceSystem.EpsgCrsId
-        exp_crs = QgsCoordinateReferenceSystem(4326, crs)
+        exp_crs = QgsCoordinateReferenceSystem("EPSG:4326")
         lyrCount = 0
         for layer, jsonEncode, eachPopup, clst in zip(layer_list, json,
                                                       popup, cluster):
@@ -201,6 +200,7 @@ class LeafletWriter(Writer):
                                                     "data")
                         exportRaster(layer, lyrCount, layersFolder,
                                      feedback, iface, matchCRS)
+            # TODO: should check this for each symbol / rule etc
             if layer.hasScaleBasedVisibility():
                 scaleDependentLayers += scaleDependentLayerScript(
                     layer, safeLayerName, clst)
@@ -210,7 +210,13 @@ class LeafletWriter(Writer):
 
         crsSrc = mapSettings.destinationCrs()
         crsAuthId = crsSrc.authid()
-        crsProj4 = crsSrc.toProj4()
+        
+        # QGIS version check
+        if Qgis.QGIS_VERSION_INT < 31003:
+            crsProj4 = crsSrc.toProj4()
+        else:
+            # Requires QGIS 3.10.3
+            crsProj4 = crsSrc.toProj()
         middle = """
         """
         if highlight or popupsOnHover:
@@ -218,7 +224,7 @@ class LeafletWriter(Writer):
             middle += highlightScript(highlight, popupsOnHover, selectionColor)
         if extent == "Canvas extent":
             pt0 = canvas.extent()
-            crsDest = QgsCoordinateReferenceSystem(4326)
+            crsDest = QgsCoordinateReferenceSystem("EPSG:4326")
             try:
                 xform = QgsCoordinateTransform(crsSrc, crsDest,
                                                QgsProject.instance())
