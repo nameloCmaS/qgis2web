@@ -1,6 +1,6 @@
-from qgis.core import QgsExpression, QgsExpressionNode, QgsMessageLog, Qgis
 import re
 import json
+from qgis.core import QgsExpression, QgsExpressionNode, QgsMessageLog, Qgis
 
 whenfunctions = []
 
@@ -183,10 +183,18 @@ def handle_in(node, mapLib):
 
 
 def handle_literal(node):
-    val = node.value()
+    # JavaScript expects the capitalisation for
+    # reserved words to be lowercase
     quote = ""
+    val = node.value()
+
     if val is None:
         val = "null"
+
+    elif isinstance(val, bool):
+        val = "true" if val == True else "false"
+
+    # Numbers don't need to be quoted but stringa do
     elif isinstance(val, str):
         quote = "'"
         val = val.replace("\n", "\\n")
