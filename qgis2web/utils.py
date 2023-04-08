@@ -180,13 +180,20 @@ def writeTmpLayer(layer, restrictToExtent, iface, extent):
         editorWidget = layer.editorWidgetSetup(fieldIndex).type()
         fieldType = layer.fields().field(field).type()
         fieldName = layer.fields().field(field).name()
-        if (editorWidget == 'Hidden'):
+        if editorWidget == 'Hidden':
             fieldName = "q2wHide_" + fieldName
-        if fieldType == QVariant.Double or fieldType == QVariant.Int:
+
+        # Causes issues when type is list especially PostGres
+        # Support for Arrays is in at least QGIS 2.18
+        array_postfix = ""
+        if fieldType in [QVariant.List, QVariant.StringList]:
+            array_postfix = "[]"
+
+        if fieldType in [QVariant.Double, QVariant.Int]:
             fieldType = "double"
         else:
             fieldType = "string"
-        uri += '&field=' + fieldName + ":" + fieldType
+        uri += '&field=' + fieldName + ":" + fieldType + array_postfix
     newlayer = QgsVectorLayer(uri, layer.name(), 'memory')
     writer = newlayer.dataProvider()
     outFeat = QgsFeature()
