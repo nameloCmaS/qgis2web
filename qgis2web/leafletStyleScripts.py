@@ -1,5 +1,6 @@
 import os
 import shutil
+import base64
 from qgis.core import (QgsSingleSymbolRenderer,
                        QgsCategorizedSymbolRenderer,
                        QgsGraduatedSymbolRenderer,
@@ -232,13 +233,22 @@ def getSymbolAsStyle(symbol, markerFolder, layer_transparency, interactivity,
         # and renaming to safe layer name
         pColor = getRGBAColor(props["color"], alpha).strip("'")
         pOutline = getRGBAColor(props["outline_color"], alpha).strip("'")
-        with open(sl.path()) as f:
-            s = f.read()
-            s = s.replace('param(fill)', pColor)
-            s = s.replace('param(fill-opacity)', '1')
-            s = s.replace('param(outline)', pOutline)
-            s = s.replace('param(outline-width)', props["outline_width"])
-            s = s.replace('param(outline-opacity)', '1')
+        
+        # check if svg is embedded in project file or not
+        # as per QgsSymbolLayerUtils::svgSymbolNameToPath and
+        #        QgsSymbolLayerUtils::svgSymbolPathToName
+        if sl.path()[0:7] == "base64:":
+            s = base64.standard_b64decode(sl.path()[7:]).decode("UTF-8")
+            
+        else:
+            s = open(sl.path()).read()
+        
+        s = s.replace('param(fill)', pColor)
+        s = s.replace('param(fill-opacity)', '1')
+        s = s.replace('param(outline)', pOutline)
+        s = s.replace('param(outline-width)', props["outline_width"])
+        s = s.replace('param(outline-opacity)', '1')
+        
         with open(os.path.join(markerFolder, sln + ".svg"), 'w') as f:
             f.write(s)
     elif isinstance(sl, QgsSimpleLineSymbolLayer):
