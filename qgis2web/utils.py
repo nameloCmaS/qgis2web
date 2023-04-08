@@ -220,6 +220,12 @@ def writeTmpLayer(layer, restrictToExtent, iface, extent):
         if attrs:
             outFeat.setAttributes(attrs)
         writer.addFeatures([outFeat])
+
+        if writer.hasErrors() != QgsVectorFileWriter.NoError:
+            QgsMessageLog.logMessage("Error when creating tempory layer: {}"
+                                                      .format(writer.lastError()),
+                                                      "qgis2web", level=Qgis.Critical)
+    del writer
     return newlayer
 
 
