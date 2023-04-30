@@ -12,6 +12,19 @@ import os
 import unittest
 import logging
 import configparser
+
+# Need to get this environment variable loaded prior to QGIS.
+# MacOS SIP blocks LD_LIBRARY_PATH & DYLD_* variables between processes
+
+print("Py LIB_PATH: ", os.environ.get("LIB_PATH"))
+
+
+# MacOS
+os.environ["DYLD_LIBRARY_PATH"] = os.environ.get("LIB_PATH")
+# Unix
+os.environ["LD_LIBRARY_PATH"] = os.environ.get("LIB_PATH")
+print("DYLD_LIBRARY_PATH: ", os.environ.get("DYLD_LIBRARY_PATH"))
+
 from qgis.testing import unittest, start_app
 
 LOGGER = logging.getLogger('QGIS')

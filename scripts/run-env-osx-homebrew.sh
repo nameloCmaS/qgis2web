@@ -1,14 +1,20 @@
 #!/bin/bash
 
 # Let's use the Homebrew path
-QGIS_STUB=/usr/local/opt/qgis-28
+#QGIS_STUB=/usr/local/opt/qgis-28
+# The Application path
+QGIS_STUB=/Applications
+# The build path
+#QGIS_STUB=~/Documents/GitHub/QGIS-build/output
 if [ -n "$1" ]; then
     QGIS_STUB=$1
 fi
 
 export QGIS_PREFIX_PATH=${QGIS_STUB}/QGIS.app/Contents/MacOS
 export QGIS_PATH=${QGIS_STUB}/QGIS.app/Contents/MacOS
-export LD_LIBRARY_PATH=${QGIS_STUB}/lib:${QGIS_PATH}/lib
+# used for DYLD_LIBRARY_PATH in MACOS. Stripped out by SIP. Unix uses LD_LIBRARY_PATH
+export LIB_PATH=
+#${QGIS_PATH}/lib:${QGIS_STUB}/QGIS.app/Contents/Frameworks
 export PYTHONPATH=${QGIS_PATH}/../Resources/python:${QGIS_PATH}/../Resources/python/plugins:${PYTHONPATH}
 
 echo "QGIS PATH: $QGIS_PREFIX_PATH"

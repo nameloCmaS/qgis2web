@@ -79,18 +79,21 @@ compile: $(COMPILED_RESOURCE_FILES)
 %.qm : %.ts
 	$(LRELEASE) $<
 
+# Replaced to coverage & pytest using answer: https://stackoverflow.com/a/67987982
+#		pytest -v --with-id --with-coverage --cover-package=. \
+#		3>&1 1>&2 2>&3 3>&- || true
 test: compile transcompile
 	@echo
 	@echo "----------------------"
 	@echo "Regression Test Suite"
 	@echo "----------------------"
-
+	@echo "Make LIB_PATH: "$(LIB_PATH)
 	@# Preceding dash means that make will continue in case of errors
-	@-export PYTHONPATH=`pwd`:$(PYTHONPATH); \
+	@-export LIB_PATH="$(LIB_PATH)"; \
+		export PYTHONPATH=`pwd`:$(PYTHONPATH); \
 		export QGIS_DEBUG=0; \
 		export QGIS_LOG_FILE=/dev/null; \
-		nosetests -v --with-id --with-coverage --cover-package=. \
-		3>&1 1>&2 2>&3 3>&- || true
+		"/Applications/QGIS.app/Contents/MacOS/bin/python3" "/usr/local/bin/coverage" run --source=. 3>&1 1>&2 2>&3 3>&- -m pytest -v test && coverage report -m || true
 	@echo "----------------------"
 	@echo "If you get a 'no module named qgis.core error, try sourcing"
 	@echo "the helper script we have provided first then run make test."
@@ -167,16 +170,16 @@ transup:
 	@echo "------------------------------------------------"
 	@echo "Updating translation files with any new strings."
 	@echo "------------------------------------------------"
-	@chmod +x scripts/update-strings.sh
-	@scripts/update-strings.sh $(LOCALES)
+	@chmod +x ../scripts/update-strings.sh
+	@../scripts/update-strings.sh $(LOCALES)
 
 transcompile:
 	@echo
 	@echo "----------------------------------------"
 	@echo "Compiled translation files to .qm files."
 	@echo "----------------------------------------"
-	@chmod +x scripts/compile-strings.sh
-	@scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
+	@chmod +x ../scripts/compile-strings.sh
+	@../scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
 
 transclean:
 	@echo
