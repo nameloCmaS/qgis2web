@@ -1,171 +1,69 @@
 [![GitHub version](https://badge.fury.io/gh/tomchadwin%2Fqgis2web.svg)](https://badge.fury.io/gh/tomchadwin%2Fqgis2web)
-[![Build Status](https://travis-ci.org/tomchadwin/qgis2web.svg?branch=master)](https://travis-ci.org/tomchadwin/qgis2web)
-[![Coverage Status](https://coveralls.io/repos/github/tomchadwin/qgis2web/badge.svg?branch=master)](https://coveralls.io/github/tomchadwin/qgis2web?branch=master)
-[![Join the chat at https://gitter.im/tomchadwin/qgis2web](https://badges.gitter.im/tomchadwin/qgis2web.svg)](https://gitter.im/tomchadwin/qgis2web?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Donate to QGIS](https://img.shields.io/badge/donate%20to-QGIS-green.svg)](http://qgis.org/en/site/getinvolved/donations.html)
+[![Donate](https://img.shields.io/badge/donate%20to-qgis2web-green)](https://www.opengis.it/buy-me-a-coffee/)
 <h1>qgis2web</h1>
-<p>QGIS plugin to export your project to an OpenLayers or Leaflet webmap. No
-server-side software required.</p>
+
+&nbsp;&nbsp;&nbsp;&nbsp;![qgis2web](https://github.com/qgis2web/qgis2web/blob/master/icons/qgis2web.png)
+
+QGIS plugin to export your project to an OpenLayers or Leaflet webmap.</br>
+It replicates as many aspects of the project as it can, including layers, extent and styles (including categorized and graduated).</br>
+No server-side software required.
 
 <h2>Installation</h2>
 <ul>
     <li>In QGIS, select <code>Plugins > Manage and Install Plugins...</code></li>
+    <li>Find <code>qgis2web</code></li>
 </ul>
 <p>or:</p>
 <ul>
-    <li>Download and unzip to your QGIS plugins directory</li>
+    <li><a href="https://github.com/qgis2web/qgis2web/archive/master.zip" target="_blank">Download</a> master repository from github</li>
+	<li>In QGIS, open <code>Plugins &gt; Manage and Install Plugins... &gt; Install from ZIP</code></li>	
+				
 </ul>
 
 <h2>Usage</h2>
-<p>Prepare your map as far as possible in QGIS, as you want it to appear in
-your webmap. Specific tasks you can carry out to improve your webmap include:
+<p>Prepare your QGIS map with simple symbologies. You can improve your webmap like this:
 </p>
 <ul>
-    <li>Set your project title, and background and highlight colours in 
-        <code>Project > Project Properties...</code></li>
-    <li>Give your layers human-friendly names in the <code>Layers Panel</code>
-    </li>
-    <li>Give your layer columns human friendly names via <code>Layer >
-        Properties > Fields > Alias</code></li>
-    <li>Hide the columns you don't want to appear in your popups by changing
-        their Edit widget to "Hidden"</li>
-    <li>If any of your fields contain image filenames, change their Edit
-        widget to "Photo" to have the images appear in popups</li>
-    <li>Style your layers, and set their scale-dependent visibility, if
-        required</li>
+    <li>Set your project title, abstract, background and highlight colours in <code>Project > Properties... > General/Metadata</code></li>
+    <li>Give your layers human-friendly names in <code>Layers Panel</code></li>
+    <li>Give your layer columns human friendly names via <code>Layer > Properties > Attributes Form > Fields > Alias</code></li>
+    <li>Hide fields you don't want to appear in your popups by changing their Widget Type to "Hidden"</li>
+    <li>Show media in your popups by changing their Widget Type to "Attachment" (your fields must contain image's path)</li>
+    <li>Style your layers as explained in [WIKI](https://qgis2web.github.io/qgis2web/), and set their scale-dependent visibility, if required</li>
 </ul>
-<p>Run qgis2web from the Web menu, or via its icon. If required, choose a
-basemap from the list below the preview pane, and click "Update preview".
-CTRL/CMD-click for multiple basemaps or to deselect a basemap.</p>
-<p>The top-left pane lets you set options for each layer in your map. The
-bottom-left pane sets overall options for your project. All options are written
-to your QGIS project, so save your project if you want to keep these settings.
+<p>Run qgis2web from the Web menu, or via its icon in Web toolbar</p>
+<p>The panes lets you set options to export your map. All options are written to your QGIS project, so save your project if you want to keep these settings.
 </p>
 
-<h2>Current limitations</h2>
-<p>QGIS, OpenLayers, and Leaflet are all different mapping technologies.
-This means that their respective functionality differs in many ways. qgis2web
-does its best to interpret a QGIS project and to export HTML, Javascript, and
-CSS to create a web map as close to the QGIS project as possible.</p>
-<p>However, many elements of a QGIS project cannot be reproduced, and many are
-only possible in <em>either</em> OpenLayers <em>or</em> Leaflet. qgis2web
-tries its best to produce a publish-ready map, but you can always manually edit
-the output code to achieve what qgis2web cannot.</p>
-<ul>
-    <li>in OL3 maps, only single rendered points cluster, not categorized
-        or graduated</li>
-    <li>line style (dashed/dotted) does not appear in OL3 preview, but works in
-        export</li>
-    <li>only a single 2.5d layer will render per map</li>
-    <li>2.5d layers only appear when zoomed in to building scales</li>
-    <li>attribute filters and abstract export only works in leaflet based webmaps</li>
-</ul>
+<h2>Documentation</h2>
 
-<h3>Layer options</h3>
-<dl>
-    <dt>Popup fields</dt>
-        <dd>Specify how each field will be labelled in popups</dd>
-    <dt>Popups</dt>
-        <dd>Specify, whether or not a layer shows a popup on a click. If not, the layer is not even clickable</dd>
-    <dt>Visible</dt>
-        <dd>Select whether the layer will be visible on map load. This only
-            determines visibility - the layer will be loaded regardless of this
-            setting</dd> 
-    <dt>Encode to JSON</dt>
-        <dd>If unchecked, WFS layers will remain remote WFS layers in the
-            webmap. If checked, the layer will be written to a local GeoJSON
-            file</dd>
-    <dt>Cluster</dt>
-        <dd>Cluster point features</dd>
-</dl>
+Read documentation on the [WIKI](https://qgis2web.github.io/qgis2web/)
 
-<h3>General options</h3>
+<h2>Awards</h2>
 
-<h4>Data export</h4>
-<dl>
-    <dt>Export folder</dt>
-        <dd>The folder where the webmap will be saved</dd> 
-    <dt>Mapping library location</dt>
-        <dd>Select whether to use a local copy of OL3/Leaflet, or whether to
-            call the library from its CDN</dd>
-    <dt>Minify GeoJSON files</dt>
-        <dd>Remove unnecessary whitespace from exported GeoJSON to reduce file
-            size</dd>
-    <dt>Precision</dt>
-        <dd>Simplify geometry to reduce file size</dd>
-</dl>
+qgis2web is among the winners of the [OSGeo:UK](https://uk.osgeo.org/agm/agm2024minutes.html) 2024 competition via GoFundGeo
+</br>
+![os geo uk](https://github.com/tomchadwin/qgis2web/assets/89784373/275553ce-39bd-42b2-81d3-12e551ce1261)
 
-<h4>Scale/Zoom</h4>
-<dl>
-    <dt>Extent</dt>
-        <dd>Either match the current QGIS view or show all contents of all
-            layers (only local GeoJSON and rasters, not WFS/WMS)</dd>
-    <dt>Max zoom level</dt>
-        <dd>How far the webmap will zoom in</dd>
-    <dt>Min zoom level</dt>
-        <dd>How far the webmap will zoom out</dd>
-    <dt>Restrict to extent</dt>
-        <dd>Prevent panning or zooming beyond the selected extent</dd>
-</dl>
 
-<h4>Appearance</h4>
-<dl>
-    <dt>Add abstract</dt>
-        <dd>This will push the abtract from the projects metadata (field abstract) into the webmap as a collapsible info box. Supported in leaflet only</dd> 
-    <dt>Add address search</dt>
-        <dd>Add field to allow searching for locations (geocode)</dd>
-    <dt>Add layers list</dt>
-        <dd>Include list of layers (with legend icons, where possible)</dd>
-    <dt>Add measure tool</dt>
-        <dd>Include interactive measuring widget</dd>
-    <dt>Attribute filter</dt>
-        <dd>Every supported field of all layers are listed as well as the type and layers they occur in. Selected attributes will be used to filter the webmap and all layers that contain the attribute with the same name.</dd>
-    <dt>Geolocate user</dt>
-        <dd>Show user's location on map</dd>
-    <dt>Highlight on hover</dt>
-        <dd>Highlight features on mouseover</dd>
-    <dt>Layer search</dt>
-        <dd>Add option to search for values in layer field values</dd>
-    <dt>Match project CRS</dt>
-        <dd>Create webmap in same projection as QGIS project, otherwise the
-        webmap is projected in EPSG:3857</dd>
-    <dt>Show popups on hover</dt>
-        <dd>Show popups when mouse hovers over features</dd>
-    <dt>Template</dt>
-        <dd>Select HTML template for webmap - add your own templates to the
-            /qgis2web/templates directory in your current QGIS3 profile 
-            folder</dd>
-</dl>
+<h2>Donations</h2>
+We are thrilled to see how widely our project is being used and appreciated around the world. The development and maintenance require significant time and effort, and we want to continue improving and adding new features.
 
-<h2>Reporting bugs</h2>
-<p>Please report any problems you have with qgis2web. Without this feedback, I
-am often completely unaware that a problem exists. To ensure no time or effort
-is wasted in bug reporting, please follow these steps:</p>
-<ol>
-    <li>Make sure you are using the latest release of qgis2web</li>
-    <li>Check the issues on Github to see whether the bug has already been
-        reported, and if so, read through all the comments on the issue, and
-        add any additional information from your experience of the bug</li>
-    <li>Make sure you can reproduce the bug reliably</li>
-    <li>Reduce the complexity of your bug conditions as far as you can,
-        especially by reducing the number of layers, ideally to one</li>
-    <li>Raise a Github issue, including:
-    <ul>
-        <li>only one bug per Github issue</li>
-        <li>the qgis2web version (or make it clear you are using Github master
-            branch)</li>
-        <li>any Python error text/stack trace which occurs</li>
-        <li>browser JS console errors - press F12 in qgis2web to open the 
-            developer toolbar and find the console</li>
-        <li>screenshot of your settings</li>
-        <li>screenshot of the output</li>
-        <li>a link to the data you used, if possible</li>
-    </ul></li>
-</ol>
-<p>The stability of qgis2web relies on your bug reports, so please keep them
-coming.</p>
+Please consider a small donation; even a modest "virtual coffee" can help support our commitment to providing quality software. 
+
+[<img src="https://github.com/tomchadwin/qgis2web/assets/89784373/3bf8e193-e65e-4dc6-a189-a9e669f98b1e">](https://www.opengis.it/buy-me-a-coffee/)
+</br><b>🎁 As a token of our gratitude, donors will receive as a gift [qgis2o.gis](https://github.com/andreaordonselli/qgis2o.gis) (a plugin enhancing OpenLayers export of qgis2web).🎁</b>
+
+Thank you for your support!
+</br>Happy mapping!🗺️
 
 <h2>Credits</h2>
+qgis2web's author is Tom Chadwin (@tomchadwin), in charge as official developer from April 2015 to November 2023, from this date Andrea Ordonselli (@andreaordonselli) took over.
+<p>The list of all other contributing developers is available at this link https://github.com/qgis2web/qgis2web/graphs/contributors
+<p>For qgis2web enthusiasts we recommend reading this splendid article written by Tom which describes the birth and growth of qgis2web:
+https://tom.chadw.in/wrote/qgis2webTheStorySoFar
+
+<p>In short words:
 <p>qgis2web is fundamentally a merge of Victor Olaya's qgis-ol3 and Riccardo
 Klinger's qgis2leaf. It would not exist without their work. Thank you,
 gentlemen. Thanks are also very much due to Paolo Cavallini, who suggested
@@ -199,28 +97,27 @@ software:</p>
 
 <p>In addition, the following libraries have been used:</p>
 <ul>
-    <li>ol3-layerswitcher, by @walkermatt</li>
-    <li>Autolinker.js, by @gregjacobs</li>
-    <li>requestAnimationFrame polyfill, by @paulirish</li>
+    <li><a href="https://github.com/walkermatt/ol-layerswitcher">ol-layerswitcher</a>, by @walkermatt</li>
+    <li><a href="https://github.com/gregjacobs/Autolinker.js">Autolinker.js</a>, by @gregjacobs</li>
+    <li><a href="https://gist.github.com/paulirish/1579671">requestAnimationFrame polyfill</a>, by @paulirish</li>
     <li>Function.prototype.bind polyfill, by @mozilla</li>
-    <li>Leaflet.label, by @jacobtoye</li>
-    <li>Leaflet.Locate, by @domoritz</li>
-    <li>Leaflet.markercluster, by @danzel</li>
-    <li>leaflet-measure, by @ljagis</li>
-    <li>leaflet-hash, by @mlevans</li>
-    <li>Proj4js, by @madair, @calvinmetcalf, and other</li>
-    <li>Proj4Leaflet, by @kartena</li>
-    <li>Leaflet.search, by @stefanocudini</li>
-    <li>ol3-search-layer, by @ThomasG77</li>
-    <li>Leaflet.heat, by @mourner</li>
-    <li>OSMBuildings, by @kekscom</li>
-    <li>multi-style-layer, by @perliedman</li>
-    <li>Leaflet.SvgShapeMarkers, by @rowanwins</li>
-    <li>rbush, by @mourner</li>
-    <li>Labelgun, by @JamesMilnerUK</li>
-    <li>Leaflet.pattern, by @teastman</li>
-    <li>Leaflet.VectorGrid, by @IvanSanchez</li>
+    <li><a href="https://github.com/Leaflet/Leaflet.label">Leaflet.label</a>, by @jacobtoye</li>
+    <li><a href="https://github.com/domoritz/leaflet-locatecontrol">Leaflet.Locate</a>, by @domoritz</li>
+    <li><a href="https://github.com/Leaflet/Leaflet.markercluster">Leaflet.markercluster</a>, by @danzel</li>
+    <li><a href="https://github.com/ljagis/leaflet-measure">leaflet-measure</a>, by @ljagis</li>
+    <li><a href="https://github.com/mlevans/leaflet-hash">leaflet-hash</a>, by @mlevans</li>
+    <li><a href="https://github.com/proj4js/proj4js">proj4js</a>, by @madair, @calvinmetcalf, @ahocevar and others</li>
+    <li><a href="https://github.com/kartena/Proj4Leaflet">Proj4Leaflet</a>, by @kartena</li>
+    <li><a href="https://github.com/stefanocudini/leaflet-search">leaflet-search</a>, by @stefanocudini</li>
+    <li><a href="https://github.com/webgeodatavore/ol3-search-layer">ol3-search-layer</a>, by @ThomasG77</li>
+    <li><a href="https://github.com/mourner/simpleheat">simpleheat</a>, by @mourner</li>
+    <li><a href="https://github.com/kekscom/osmbuildings">OSMBuildings</a>, by @kekscom</li>
+    <li><a href="https://github.com/perliedman/leaflet-multi-style">leaflet-multi-style</a>, by @perliedman</li>
+    <li><a href="https://github.com/rowanwins/Leaflet.SvgShapeMarkers">Leaflet.SvgShapeMarkers</a>, by @rowanwins</li>
+    <li><a href="https://github.com/mourner/rbush">rbush</a>, by @mourner</li>
+    <li><a href="https://github.com/Geovation/labelgun">Labelgun</a>, by @JamesMilnerUK</li>
+    <li><a href="https://github.com/teastman/Leaflet.pattern">Leaflet.pattern</a>, by @teastman</li>
+    <li><a href="https://github.com/Leaflet/Leaflet.VectorGrid">Leaflet.VectorGrid</a>, by @IvanSanchez</li>
+    <li><a href="https://github.com/jjimenezshaw/Leaflet.Control.Layers.Tree">Leaflet.Control.Layers.Tree</a>, by @jjimenezshaw</li>
 </ul>
 
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/tomchadwin/qgis2web.svg)](https://greenkeeper.io/)
